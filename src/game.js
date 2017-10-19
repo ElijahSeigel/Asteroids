@@ -1,5 +1,5 @@
 import Ship from './ship';
-import Asteroids from './asteroids';
+//import Asteroids from './asteroids';
 
 export default class Game{
   constructor(){
@@ -8,17 +8,17 @@ export default class Game{
 	  this.score = 0;
 	  this.over = false;
 	  this.input = [];
-	  this.ship = new Ship(500,500);
-	  this.asteroids = new Asteroids(this.level); 
+	  this.ship = new Ship(150,150);
+	 //this.asteroids = new Asteroids(this.level); 
      // Create the back buffer canvas
     this.backBufferCanvas = document.createElement('canvas');
-    this.backBufferCanvas.width = 1000;
-    this.backBufferCanvas.height = 1000;
+    this.backBufferCanvas.width = 300;
+    this.backBufferCanvas.height = 300;
     this.backBufferContext = this.backBufferCanvas.getContext('2d');
     // Create the screen buffer canvas
     this.screenBufferCanvas = document.createElement('canvas');
-    this.screenBufferCanvas.width = 1000;
-    this.screenBufferCanvas.height = 1000;
+    this.screenBufferCanvas.width = 300;
+    this.screenBufferCanvas.height = 300;
     document.body.appendChild(this.screenBufferCanvas);
     this.screenBufferContext = this.screenBufferCanvas.getContext('2d');
     // Create HTML UI Elements
@@ -36,7 +36,7 @@ export default class Game{
     window.onkeydown = this.handleInput;
 	window.onkeyup = this.handleInput;
     // Start the game loop
-    this.interval = setInterval(this.loop, 500);
+    this.interval = setInterval(this.loop, 50);
     // Game music
 	/***ADD GAME MUSIC HERE LATER***/
   }
@@ -56,14 +56,14 @@ export default class Game{
     //console.log(event.key);
 	var map = {};
 	map[e.keyCode] = e.type == 'keydown';
-	  if (map[87])//w
-		this.input.push('up');
-	  if (map[65])//a
+	  if (map[87] || map[38])//w//up
+		this.input.push('forward');
+	  if (map[65] || map[37])//a//left
 		this.input.push('left');
-	  if (map[83])//s
-		this.input.push('down');
-	  if (map[68])//d
+	  if (map[68] || map[39])//d//right
 		this.input.push('right');
+	  if (map[83] || map[40])//s//down
+		this.input.push('brake');
 	  if (map[32])//space
 		this.input.push('fire');
   }
@@ -73,8 +73,8 @@ export default class Game{
   update() {
     if(!this.over) {
       // Update ship and asteroids
-      this.asteroids.update(this.level);
-      this.snake.update(this.input);
+      //this.asteroids.update(this.level);
+      this.ship.update(this.input);
     }
   }
   /** @method render
@@ -82,13 +82,14 @@ export default class Game{
     */
   render() {
     this.backBufferContext.fillStyle = '#ccc';
-    this.backBufferContext.fillRect(0, 0, 100, 100);
-	this.asteroids.render(this.backBufferContext);
+    this.backBufferContext.fillRect(0, 0, 300, 300);
+	//this.asteroids.render(this.backBufferContext);
     this.ship.render(this.backBufferContext);
     this.screenBufferContext.drawImage(this.backBufferCanvas,0,0);
   }
   loop() {
     this.update();
     this.render();
+	this.input = [];
   }
 }
