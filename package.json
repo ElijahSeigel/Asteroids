@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/ElijahSeigel/Asteroids/issues"
   },
-  "homepage": "https://github.com/ElijahSeigel/Asteroids#readme",
+  "homepage": "https://elijahseigel.github.io/Asteroids/",
   "devDependencies" : {
     "react-scripts": "^1.0.13"
   }
